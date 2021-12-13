@@ -1,35 +1,41 @@
 cache:
    pipeline: ["~/.m2"]
 
+annotations:
+   screwdriver.cd/restrictPR: fork
+
 shared:
-    environment:
-        CONTAINER: "open-jdk11-latest"
-        MVN_SDPROFILE: ""
-        JDK_VERSION: "11"
-        ENABLE_MAVEN_OWASP_CHECK: "true"
-        RESTART_YKEYKEYD: "true"
-    secrets:
-        - GOOGLE_SERVICE_ACCOUNT
+   annotations:
+       screwdriver.cd/cpu: TURBO
+       screwdriver.cd/ram: TURBO
+
+   environment:
+       #Fetches history so Sonar can assign blame.
+       GIT_SHALLOW_CLONE: false
+       CONTAINER: "open-jdk11-latest"
+       JDK_VERSION: "11"
+       ENABLE_MAVEN_OWASP_CHECK: "true"
+       RESTART_YKEYKEYD: "true"
 
 jobs:
-    pr:
-        requires: [~pr]
-        template: java-platform/maven-open-jdk-rhel7@latest
-        steps:
-          - build: 
-              export com.yahoo.gsheetjdbc.credentials=$GOOGLE_SERVICE_ACCOUNT
-              mvn -B clean verify -PallTests
+  master-commit:
+    image: maven:3.8.2-openjdk-11
+    requires: [~pr, ~commit]
+    secrets:
+        - GOOGLE_SERVICE_ACCOUNT
+        - COVERALLS_REPO_TOKEN
+    steps:
+      - build: mvn -B clean verify coveralls:report -PallTests
 
-    main:
-        requires: [~commit]
-        template: java-platform/maven-open-jdk-rhel7@latest
-        steps:
-          - build: 
-              export com.yahoo.gsheetjdbc.credentials=$GOOGLE_SERVICE_ACCOUNT
-              mvn -B clean verify -PallTests
-
-    release:
-        requires: [~main]
-        template: java-platform/maven-open-jdk-rhel7@latest
-        steps:
-           - release: mvn -B -DskipTests deploy
+release-java11:
+    image: maven:3.8.2-openjdk-11
+    secrets:
+        - GPG_KEYNAME
+        - GPG_PASSPHRASE
+        - GPG_ENCPHRASE
+        - OSSRH_USER
+        - OSSRH_TOKEN
+    requires: [~tag, ~release]
+    steps:
+      - build: "screwdriver/scripts/build.sh"
+      - publish: "screwdriver/scripts/publish.sh"
