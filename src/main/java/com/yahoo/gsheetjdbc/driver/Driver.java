@@ -41,7 +41,8 @@ public class Driver implements java.sql.Driver {
     private static final String SCHEMA_NAME_REGEX = "([a-zA-Z][a-zA-Z0-9_]*)";
 
     //doc=(id=abcdefg,range=MySheet!A1:G11)
-    private static final String DOC_REGEX = "doc=\\(id=([a-zA-Z0-9-_]+),range=([^/!]+![a-zA-Z]+[0-9]+:[a-zA-Z]+[0-9]+)\\)";
+    private static final String DOC_REGEX =
+            "doc=\\(id=([a-zA-Z0-9-_]+),range=([^/!]+![a-zA-Z]+[0-9]+:[a-zA-Z]+[0-9]+)\\)";
 
     // Multi Sheet
     // jdbc:gsheet://doc=(id=abcdefg,range=Sheet1!A1:G11),doc=(id=xyz123,range=Sheet2!A1:G11)/MySchema

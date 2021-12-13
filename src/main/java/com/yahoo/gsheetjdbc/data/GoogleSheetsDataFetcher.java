@@ -77,9 +77,9 @@ public class GoogleSheetsDataFetcher implements DataFetcher {
             CredentialFetcher credentialFetcher
     ) {
         try {
-            final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+            final NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
 
-            Drive service = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY,
+            Drive service = new Drive.Builder(httpTransport, JSON_FACTORY,
                     new HttpCredentialsAdapter(credentialFetcher.getCredentials()))
                     .setApplicationName(APP_NAME)
                     .build();
@@ -106,8 +106,8 @@ public class GoogleSheetsDataFetcher implements DataFetcher {
             String range,
             CredentialFetcher credentialFetcher
     ) throws IOException, GeneralSecurityException {
-        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-        Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY,
+        final NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
+        Sheets service = new Sheets.Builder(httpTransport, JSON_FACTORY,
                 new HttpCredentialsAdapter(credentialFetcher.getCredentials()))
                 .setApplicationName(APP_NAME)
                 .build();
@@ -115,11 +115,39 @@ public class GoogleSheetsDataFetcher implements DataFetcher {
         Spreadsheet spreadsheet = service.spreadsheets()
                 .get(documentId)
                 .setRanges(List.of(range))
-                .setFields("sheets(data(rowData(values(effectiveValue,effectiveFormat(numberFormat)))),properties(title))")
+                .setFields("sheets(data(rowData(values(effectiveValue,effectiveFormat(numberFormat))))"
+                        + ",properties(title))")
                 .setIncludeGridData(true)
                 .execute();
 
         return spreadsheet;
+    }
+
+    String extractTitle(Sheet sheet) {
+        if (sheet.getProperties() == null
+                || sheet.getProperties().getTitle() == null
+                || sheet.getProperties().getTitle().isEmpty()
+                || sheet.getProperties().getTitle().length() > 256
+        ) {
+            String message = "Sheet title is missing or invalid title.";
+            log.error(message);
+            throw new IllegalStateException(message);
+        }
+
+        return sheet.getProperties().getTitle();
+    }
+
+    String extractColumn(CellData headerCell) {
+        if (headerCell.getEffectiveValue().getStringValue() == null
+                || headerCell.getEffectiveValue().getStringValue().isEmpty()
+                || headerCell.getEffectiveValue().getStringValue().length() > 256
+        ) {
+            String message = "Header row must contain all string values.";
+            log.error(message);
+            throw new IllegalStateException(message);
+        }
+
+        return headerCell.getEffectiveValue().getStringValue();
     }
 
     Table extractTableSchema(Sheet sheet, String schema) {
@@ -136,17 +164,7 @@ public class GoogleSheetsDataFetcher implements DataFetcher {
 
         GridData gridData = sheet.getData().get(0);
 
-        if (sheet.getProperties() == null
-                || sheet.getProperties().getTitle() == null
-                || sheet.getProperties().getTitle().isEmpty()
-                || sheet.getProperties().getTitle().length() > 256
-        ) {
-            String message = "Sheet title is missing or invalid title.";
-            log.error(message);
-            throw new IllegalStateException(message);
-        }
-
-        String tableName = sheet.getProperties().getTitle();
+        String tableName = extractTitle(sheet);
 
         Table.TableBuilder schemaBuilder = Table.builder();
         schemaBuilder.tableName(tableName);
@@ -166,16 +184,7 @@ public class GoogleSheetsDataFetcher implements DataFetcher {
                 break;
             }
 
-            if (headerCell.getEffectiveValue().getStringValue() == null
-                    || headerCell.getEffectiveValue().getStringValue().isEmpty()
-                    || headerCell.getEffectiveValue().getStringValue().length() > 256
-            ) {
-                String message = "Header row must contain all string values.";
-                log.error(message);
-                throw new IllegalStateException(message);
-            }
-
-            String columnName = headerCell.getEffectiveValue().getStringValue();
+            String columnName = extractColumn(headerCell);
 
             schemaBuilder.column(Column.builder()
                     .name(columnName)

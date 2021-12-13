@@ -34,8 +34,9 @@ public class GoogleServiceAccountCredentialFetcher implements CredentialFetcher 
      */
     public GoogleServiceAccountCredentialFetcher(String credentialJson) {
         if (credentialJson == null || credentialJson.isEmpty()) {
-            throw new IllegalArgumentException(CREDENTIAL_ENVIRONMENT_VAR + " must be set as an environment " +
-                    "variable with the correct credential JSON");
+            throw new IllegalArgumentException(CREDENTIAL_ENVIRONMENT_VAR
+                    + " must be set as an environment "
+                    + "variable with the correct credential JSON");
         }
         this.credentialJson = credentialJson;
     }

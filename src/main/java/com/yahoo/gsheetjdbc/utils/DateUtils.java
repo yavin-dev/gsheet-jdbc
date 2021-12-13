@@ -15,7 +15,7 @@ public class DateUtils {
     /**
      * Google serial number format epoch starts on 12/30/1899.
      */
-    final static public LocalDateTime GOOGLE_EPOCH_REFERENCE = LocalDateTime.of( 1899 , Month.DECEMBER , 30 , 0, 0);
+    final static public LocalDateTime GOOGLE_EPOCH_REFERENCE = LocalDateTime.of(1899 , Month.DECEMBER , 30 , 0, 0);
 
     /**
      * Converts a Google serial data into a LocalDateTime.

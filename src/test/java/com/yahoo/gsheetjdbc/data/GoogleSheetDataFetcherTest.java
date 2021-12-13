@@ -198,7 +198,7 @@ public class GoogleSheetDataFetcherTest {
 
         assertEquals(Column.ColumnType.DATE, fetcher.extractColumnType(cell));
         assertEquals(LocalDateTime.of(
-                LocalDate.of(2021, 10, 3), LocalTime.of(0,0,0,0)), fetcher.extractCellData(
+                LocalDate.of(2021,  10,  3), LocalTime.of(0, 0, 0, 0)), fetcher.extractCellData(
                 Column.builder().name("dateCell").type(Column.ColumnType.DATE).build(), cell));
     }
 
@@ -214,7 +214,7 @@ public class GoogleSheetDataFetcherTest {
 
         assertEquals(Column.ColumnType.DATETIME, fetcher.extractColumnType(cell));
         assertEquals(LocalDateTime.of(
-                LocalDate.of(2008, 9, 29), LocalTime.of(5,45,0,0)), fetcher.extractCellData(
+                LocalDate.of(2008,  9,  29), LocalTime.of(5, 45, 0, 0)), fetcher.extractCellData(
                 Column.builder().name("dateTimeCell").type(Column.ColumnType.DATETIME).build(), cell));
     }
 }

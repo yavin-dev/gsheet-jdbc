@@ -42,8 +42,8 @@ public class DatabaseLoader implements Closeable {
 
     /**
      * Fetches a JDBC connection to the underlying H2 database.
-     * @return
-     * @throws SQLException
+     * @return a JDBC connection
+     * @throws SQLException on error
      */
     public Connection getConnection() throws SQLException {
         return DriverManager.getConnection(jdbcUrl, "", "");

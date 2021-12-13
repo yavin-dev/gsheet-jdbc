@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suppressions
+    xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.2.xsd">
+
+    <!-- We don't care about PKCE as we are not a mobile app -->
+    <suppress>
+        <cve>CVE-2020-7692</cve>
+    </suppress>
+
+    <!-- H2 will be used in read only context -->
+    <suppress>
+        <cve>CVE-2018-10054</cve>
+    </suppress>
+</suppressions>
