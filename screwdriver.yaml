@@ -1,0 +1,35 @@
+cache:
+   pipeline: ["~/.m2"]
+
+shared:
+    environment:
+        CONTAINER: "open-jdk11-latest"
+        MVN_SDPROFILE: ""
+        JDK_VERSION: "11"
+        ENABLE_MAVEN_OWASP_CHECK: "true"
+        RESTART_YKEYKEYD: "true"
+    secrets:
+        - GOOGLE_SERVICE_ACCOUNT
+
+jobs:
+    pr:
+        requires: [~pr]
+        template: java-platform/maven-open-jdk-rhel7@latest
+        steps:
+          - build: 
+              export com.yahoo.gsheetjdbc.credentials=$GOOGLE_SERVICE_ACCOUNT
+              mvn -B clean verify -PallTests
+
+    main:
+        requires: [~commit]
+        template: java-platform/maven-open-jdk-rhel7@latest
+        steps:
+          - build: 
+              export com.yahoo.gsheetjdbc.credentials=$GOOGLE_SERVICE_ACCOUNT
+              mvn -B clean verify -PallTests
+
+    release:
+        requires: [~main]
+        template: java-platform/maven-open-jdk-rhel7@latest
+        steps:
+           - release: mvn -B -DskipTests deploy
