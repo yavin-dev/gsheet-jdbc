@@ -31,6 +31,8 @@ import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Concrete implementation of the DataFetcher.
@@ -40,9 +42,16 @@ public class GoogleSheetsDataFetcher implements DataFetcher {
 
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     private static final String APP_NAME = "GSheet JDBC Driver";
+    private static final String LEGAL_NAME_REGEX = "^[ a-zA-Z0-9_-]+$";
+    private static final Pattern LEGAL_NAME_PATTERN = Pattern.compile(LEGAL_NAME_REGEX);
 
     @Override
-    public Result fetchDocument(CredentialFetcher credentialFetcher, String schema, String document, String range) {
+    public Result fetchDocumentSheet(
+            CredentialFetcher credentialFetcher,
+            String schema,
+            String document,
+            String range
+    ) {
         try {
             Spreadsheet spreadsheet = fetchSpreadsheet(document, range, credentialFetcher);
 
@@ -127,27 +136,47 @@ public class GoogleSheetsDataFetcher implements DataFetcher {
         if (sheet.getProperties() == null
                 || sheet.getProperties().getTitle() == null
                 || sheet.getProperties().getTitle().isEmpty()
-                || sheet.getProperties().getTitle().length() > 256
         ) {
             String message = "Sheet title is missing or invalid title.";
             log.error(message);
             throw new IllegalStateException(message);
         }
 
-        return sheet.getProperties().getTitle();
+        String title =  sheet.getProperties().getTitle();
+        title = title.substring(0, Math.min(256, title.length()));
+
+        Matcher matcher = LEGAL_NAME_PATTERN.matcher(title);
+
+        if (!matcher.matches()) {
+            String message = "Sheet title must be a ASCII, Alphanumeric string.";
+            log.error(message);
+            throw new IllegalStateException(message);
+        }
+
+        return title;
     }
 
     String extractColumn(CellData headerCell) {
         if (headerCell.getEffectiveValue().getStringValue() == null
                 || headerCell.getEffectiveValue().getStringValue().isEmpty()
-                || headerCell.getEffectiveValue().getStringValue().length() > 256
         ) {
             String message = "Header row must contain all string values.";
             log.error(message);
             throw new IllegalStateException(message);
         }
 
-        return headerCell.getEffectiveValue().getStringValue();
+        String heading = headerCell.getEffectiveValue().getStringValue();
+        heading = heading.substring(0, Math.min(256, heading.length()));
+
+        Matcher matcher = LEGAL_NAME_PATTERN.matcher(heading);
+
+        if (!matcher.matches()) {
+            String message = "Column heading must be a ASCII, Alphanumeric string.";
+            log.error(message);
+            throw new IllegalStateException(message);
+        }
+
+        return heading;
     }
 
     Table extractTableSchema(Sheet sheet, String schema) {
@@ -208,31 +237,31 @@ public class GoogleSheetsDataFetcher implements DataFetcher {
         int startRow = 1;
 
         for (int row = startRow; row < gridData.getRowData().size(); row++) {
-                List<Object> rowResults = new ArrayList<>();
-                RowData rowData = gridData.getRowData().get(row);
+            List<Object> rowResults = new ArrayList<>();
+            RowData rowData = gridData.getRowData().get(row);
 
-                if (rowData.getValues().size() < table.getColumns().size()) {
-                    //Can't process this row.
-                    break;
+            if (rowData.getValues().size() < table.getColumns().size()) {
+                //Can't process this row.
+                break;
+            }
+            int columnIndex = 0;
+            for (Column column: table.getColumns()) {
+                CellData cellData = rowData.getValues().get(columnIndex);
+
+                if (cellData.getEffectiveValue() == null) {
+                    rowResults.add(null);
+                } else {
+                    rowResults.add(extractCellData(column, cellData));
                 }
-                int columnIndex = 0;
-                for (Column column: table.getColumns()) {
-                    CellData cellData = rowData.getValues().get(columnIndex);
+                columnIndex++;
+            }
 
-                    if (cellData.getEffectiveValue() == null) {
-                        rowResults.add(null);
-                    } else {
-                        rowResults.add(extractCellData(column, cellData));
-                    }
-                    columnIndex++;
-                }
+            if (rowResults.stream().allMatch((obj) -> obj == null)) {
+                //first empty row.
+                break;
+            }
 
-                if (rowResults.stream().allMatch((obj) -> obj == null)) {
-                    //first empty row.
-                    break;
-                }
-
-                results.add(rowResults);
+            results.add(rowResults);
         }
         return results;
     }

@@ -31,7 +31,7 @@ public class GoogleSheetDataFetcherIT {
         GoogleSheetsDataFetcher fetcher = new GoogleSheetsDataFetcher();
 
         DataFetcher.Result result =
-                fetcher.fetchDocument(new GoogleServiceAccountCredentialFetcher(), "Test", documentId, "Class Data!A1:I31");
+                fetcher.fetchDocumentSheet(new GoogleServiceAccountCredentialFetcher(), "Test", documentId, "Class Data!A1:I31");
 
         Table schema = result.getSchema();
 
@@ -44,7 +44,7 @@ public class GoogleSheetDataFetcherIT {
                 .column(Column.builder().name("Home State").type(Column.ColumnType.STRING).build())
                 .column(Column.builder().name("Major").type(Column.ColumnType.STRING).build())
                 .column(Column.builder().name("Extracurricular Activity").type(Column.ColumnType.STRING).build())
-                .column(Column.builder().name("Earnings ¥").type(Column.ColumnType.NUMBER).build())
+                .column(Column.builder().name("Earnings").type(Column.ColumnType.NUMBER).build())
                 .column(Column.builder().name("Date").type(Column.ColumnType.DATETIME).build())
                 .column(Column.builder().name("Formula").type(Column.ColumnType.NUMBER).build())
                 .build(), schema);

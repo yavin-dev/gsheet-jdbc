@@ -105,8 +105,8 @@ public class Driver implements java.sql.Driver {
     private void fetchAndLoad(DocConfig document, CredentialFetcher credentialFetcher, DatabaseLoader loader) {
         GoogleSheetsDataFetcher fetcher = new GoogleSheetsDataFetcher();
 
-        DataFetcher.Result result = fetcher.fetchDocument(credentialFetcher, document.getSchema(), document.getId(),
-                document.getRange());
+        DataFetcher.Result result = fetcher.fetchDocumentSheet(credentialFetcher,
+                document.getSchema(), document.getId(), document.getRange());
 
         try {
             loader.refreshTempTable(result.getSchema(), result.getData());

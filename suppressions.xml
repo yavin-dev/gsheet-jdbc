@@ -10,5 +10,6 @@
     <!-- H2 will be used in read only context -->
     <suppress>
         <cve>CVE-2018-10054</cve>
+        <cve>CVE-2021-23463</cve>
     </suppress>
 </suppressions>

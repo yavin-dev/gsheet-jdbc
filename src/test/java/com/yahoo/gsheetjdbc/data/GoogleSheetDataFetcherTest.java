@@ -89,8 +89,8 @@ public class GoogleSheetDataFetcherTest {
     @ValueSource(strings = {
             //Empty Column Name
             "{\"sheets\":[{\"data\":[{\"rowData\":[{\"values\":[{\"effectiveValue\":{\"stringValue\":\"\"}}]},{\"values\":[{\"effectiveValue\":{\"stringValue\":\"Alexandra\"}}]}]}],\"properties\":{\"title\":\"Sheet1\"}}]}",
-            //Column Name > 256 Characters
-            "{\"sheets\":[{\"data\":[{\"rowData\":[{\"values\":[{\"effectiveValue\":{\"stringValue\":\"A01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789\"}}]},{\"values\":[{\"effectiveValue\":{\"stringValue\":\"Alexandra\"}}]}]}],\"properties\":{\"title\":\"Sheet1\"}}]}"
+            //Column Name Has Illegal Character
+            "{\"sheets\":[{\"data\":[{\"rowData\":[{\"values\":[{\"effectiveValue\":{\"stringValue\":\";\"}}]},{\"values\":[{\"effectiveValue\":{\"stringValue\":\"Alexandra\"}}]}]}],\"properties\":{\"title\":\"Sheet1\"}}]}"
     })
     public void testSchemaParsingInvalidColumnName(String data) throws Exception {
         JsonObjectParser parser = new JsonObjectParser(new GsonFactory());

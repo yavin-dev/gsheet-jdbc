@@ -31,9 +31,9 @@ public interface DataFetcher {
      * Fetches a Google spreadsheet.
      * @param credentialFetcher Wraps credentials needed to access Google APIs.
      * @param documentId The Google document ID to fetch.
-     * @param range The spreadsheet range: 'SheetName!A1:G11'
+     * @param sheetRange The spreadsheet range: 'SheetName!A1:G11'
      * @param schema The schema name where data will be stored in the database.
      * @return A result object containg the table schema and associated data.
      */
-    Result fetchDocument(CredentialFetcher credentialFetcher, String documentId, String range, String schema);
+    Result fetchDocumentSheet(CredentialFetcher credentialFetcher, String documentId, String sheetRange, String schema);
 }

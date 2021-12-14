@@ -1,5 +1,0 @@
-add yinst pkg yjava_maven          3.6.0_12593805       *
-
-#Enable Athens
-add yinst setting ykeykeyd.node_auth_mode=YCA_ATHENS_HYBRID
-add yinst setting ykeykeyd.athens_ntoken_file=/sd/tokens/ntoken

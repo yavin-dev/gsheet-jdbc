@@ -15,7 +15,6 @@ shared:
        CONTAINER: "open-jdk11-latest"
        JDK_VERSION: "11"
        ENABLE_MAVEN_OWASP_CHECK: "true"
-       RESTART_YKEYKEYD: "true"
 
 jobs:
   master-commit:

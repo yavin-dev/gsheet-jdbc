@@ -76,7 +76,7 @@ public class DriverIT {
         //Reload the data...
         connection = DriverManager.getConnection(url, "", "");
 
-        PreparedStatement statement = connection.prepareStatement("Select \"Earnings ¥\" from \"MySchema\".\"Class Data\" WHERE \"Student Name\"='Alexandra' LIMIT 1;");
+        PreparedStatement statement = connection.prepareStatement("Select \"Earnings\" from \"MySchema\".\"Class Data\" WHERE \"Student Name\"='Alexandra' LIMIT 1;");
 
         ResultSet result = statement.executeQuery();
         assertEquals(true, result.last());
