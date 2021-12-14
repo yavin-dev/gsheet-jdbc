@@ -75,7 +75,8 @@ Each document must be shared with the IAM email address of the service account s
 
 ## Database Table Schemas
 
-The first row of the range provided in the JDBC URL must contain the column headers or names for each column.  These names will be mapped to physical columns names in the H2 database.  It is OK to use spaces or special characters in the names as all column names and table names are quoted.
+The first row of the range provided in the JDBC URL must contain the column headers or names for each column.  These names will be mapped to physical columns names in the H2 database.  Column names are restricted
+to alphanumeric (ASCII) characters, space, hyphen, and underscore.  
 
 Column types are derived from the format (explicit or implied) of cells in the first data row.  Supported column types include:
 - **Text** - The default format if none is applied.  It maps to `VARCHAR` in the database.
