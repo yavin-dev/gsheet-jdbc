@@ -1,0 +1,115 @@
+{
+  "sheets": [
+    {
+      "data": [
+        {
+          "rowData": [
+            {
+              "values": [
+                {
+                  "effectiveValue": {
+                    "stringValue": "Employee"
+                  }
+                },
+                {
+                  "effectiveFormat": {
+                    "numberFormat": {
+                      "pattern":"M/d/yyyy",
+                      "type":"DATE"}
+                  },
+                  "effectiveValue": {
+                    "stringValue":"Hire Date"
+                  }
+                },
+                {
+                  "effectiveFormat": {
+                    "numberFormat": {
+                      "pattern": "\"$\"#,##0.00",
+                      "type": "CURRENCY"
+                    }
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Salary"
+                  }
+                }
+              ]
+            },
+            {
+              "values": [
+                {
+                  "effectiveValue": {
+                    "stringValue": "John Doe"
+                  }
+                },
+                {
+                  "effectiveFormat": {
+                    "numberFormat":{
+                      "pattern":"M/d/yyyy",
+                      "type":"DATE"
+                    }
+                  },
+                  "effectiveValue": {
+                    "numberValue":44477.0
+                  }
+                },
+                {
+                  "effectiveFormat": {
+                    "numberFormat": {
+                      "pattern": "\"$\"#,##0.00",
+                      "type": "CURRENCY"
+                    }
+                  },
+                  "effectiveValue": {
+                    "numberValue": 400000.00
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "properties": {
+        "title": "Salary"
+      }
+    },
+    {
+      "data": [
+        {
+          "rowData": [
+            {
+              "values": [
+                {
+                  "effectiveValue": {
+                    "stringValue": "Employee"
+                  }
+                },
+                {
+                  "effectiveValue": {
+                    "stringValue": "Days Off"
+                  }
+                }
+              ]
+            },
+            {
+              "values": [
+                {
+                  "effectiveValue": {
+                    "stringValue": "John Doe"
+                  }
+                },
+                {
+                  "effectiveValue": {
+                    "numberValue": 45
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "properties": {
+        "title": "PTO"
+      }
+    }
+  ]
+}
