@@ -44,6 +44,7 @@
 
     <scm>
         <developerConnection>scm:git:ssh://git@github.com/yavin-dev/gsheet-jdbc.git</developerConnection>
+        <url>https://github.com/yavin-dev/gsheet-jdbc.git</url>
         <tag>gsheet-jdbc-1.0.0-SNAPSHOT</tag>
     </scm>
 
