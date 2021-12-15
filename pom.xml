@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>dev.yavin</groupId>
     <artifactId>gsheet-jdbc</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>gsheet-jdbc</name>
     <description>Connect to any Google sheet with JDBC</description>
@@ -44,7 +44,7 @@
 
     <scm>
         <developerConnection>scm:git:ssh://git@github.com/yavin-dev/gsheet-jdbc.git</developerConnection>
-        <tag>gsheet-jdbc-1.0.0</tag>
+        <tag>gsheet-jdbc-1.0.0-SNAPSHOT</tag>
     </scm>
 
     <properties>
