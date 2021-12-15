@@ -43,7 +43,7 @@
     </distributionManagement>
 
     <scm>
-        <developerConnection>scm:git:ssh://git@github.com:yavin-dev/gsheet-jdbc.git</developerConnection>
+        <developerConnection>scm:git:ssh://git@github.com/yavin-dev/gsheet-jdbc.git</developerConnection>
         <tag>gsheet-jdbc-1.0.0</tag>
     </scm>
 
