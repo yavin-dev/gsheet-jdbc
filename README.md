@@ -2,6 +2,8 @@
 
 > Connect to any Google Spreadsheet with JDBC
 
+[![Coverage Status](https://coveralls.io/repos/github/yavin-dev/gsheet-jdbc/badge.svg?branch=main)](https://coveralls.io/github/yavin-dev/gsheet-jdbc?branch=main)
+
 ## Table of Contents
 
 - [Background](#background)
