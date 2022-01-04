@@ -49,7 +49,7 @@ public class DatabaseLoaderTest {
     public void testCreateTableSql() {
         DatabaseLoader loader = new DatabaseLoader("test");
 
-        String expected = "CREATE TABLE IF NOT EXISTS \"MySchema\".\"MyTable\" (\"exampleText\" VARCHAR,\"exampleBoolean\" BOOLEAN,\"exampleNumber\" DOUBLE,\"exampleDate\" DATE,\"exampleDateTime\" TIMESTAMP);";
+        String expected = "CREATE TABLE IF NOT EXISTS `MySchema`.`MyTable` (`exampleText` VARCHAR,`exampleBoolean` BOOLEAN,`exampleNumber` DOUBLE,`exampleDate` DATE,`exampleDateTime` TIMESTAMP);";
         assertEquals(expected, loader.generateTableCreationStatement(table, ""));
     }
 
@@ -57,7 +57,7 @@ public class DatabaseLoaderTest {
     public void testCreateSchemaSql() {
         DatabaseLoader loader = new DatabaseLoader("test");
 
-        String expected = "CREATE SCHEMA IF NOT EXISTS \"MySchema\";";
+        String expected = "CREATE SCHEMA IF NOT EXISTS `MySchema`;";
         assertEquals(expected, loader.generateSchemaGenerationStatement(table));
     }
 
@@ -65,7 +65,7 @@ public class DatabaseLoaderTest {
     public void testTableRenameSql() {
         DatabaseLoader loader = new DatabaseLoader("test");
 
-        String expected = "ALTER TABLE IF EXISTS \"MySchema\".\"MyTableFoo\" RENAME TO \"MySchema\".\"MyTableBar\"";
+        String expected = "ALTER TABLE IF EXISTS `MySchema`.`MyTableFoo` RENAME TO `MySchema`.`MyTableBar`";
         assertEquals(expected, loader.generateTableRenameStatement(table, "Foo", "Bar"));
     }
 
@@ -73,7 +73,7 @@ public class DatabaseLoaderTest {
     public void testTableDropSql() {
         DatabaseLoader loader = new DatabaseLoader("test");
 
-        String expected = "DROP TABLE IF EXISTS \"MySchema\".\"MyTableFoo\"";
+        String expected = "DROP TABLE IF EXISTS `MySchema`.`MyTableFoo`";
         assertEquals(expected, loader.generateTableDropStatement(table, "Foo"));
     }
 
@@ -81,7 +81,7 @@ public class DatabaseLoaderTest {
     public void testInsertTableSql() {
         DatabaseLoader loader = new DatabaseLoader("test");
 
-        String expected = "INSERT INTO \"MySchema\".\"MyTable\" (\"exampleText\",\"exampleBoolean\",\"exampleNumber\",\"exampleDate\",\"exampleDateTime\") VALUES (?,?,?,?,?);";
+        String expected = "INSERT INTO `MySchema`.`MyTable` (`exampleText`,`exampleBoolean`,`exampleNumber`,`exampleDate`,`exampleDateTime`) VALUES (?,?,?,?,?);";
         assertEquals(expected, loader.generateTableInsertionStatement(table, ""));
     }
 
@@ -113,7 +113,7 @@ public class DatabaseLoaderTest {
 
         PreparedStatement statement = null;
         try (Connection connection = loader.getConnection()) {
-            statement = connection.prepareStatement("SELECT COUNT(*) FROM \"MySchema\".\"MyTable\";");
+            statement = connection.prepareStatement("SELECT COUNT(*) FROM `MySchema`.`MyTable`;");
 
             ResultSet result = statement.executeQuery();
             assertTrue(result.last());
