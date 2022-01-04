@@ -88,14 +88,14 @@ public class DatabaseLoader implements Closeable {
 
     String generateTableName(Table table, String suffix) {
         StringBuilder statement = new StringBuilder();
-        statement.append("\"");
+        statement.append("`");
         statement.append(table.getSchema());
-        statement.append("\".\"");
+        statement.append("`.`");
         statement.append(table.getTableName());
         if (suffix != null) {
             statement.append(suffix);
         }
-        statement.append("\"");
+        statement.append("`");
         return statement.toString();
     }
 
@@ -117,9 +117,9 @@ public class DatabaseLoader implements Closeable {
 
     String generateSchemaGenerationStatement(Table table) {
         StringBuilder statement = new StringBuilder();
-        statement.append("CREATE SCHEMA IF NOT EXISTS \"");
+        statement.append("CREATE SCHEMA IF NOT EXISTS `");
         statement.append(table.getSchema());
-        statement.append("\";");
+        statement.append("`;");
 
         return statement.toString();
     }
@@ -132,7 +132,7 @@ public class DatabaseLoader implements Closeable {
 
         statement.append(table.getColumns().stream().map(
                 column -> {
-                    return "\"" + column.getName() + "\" " + getH2Type(column.getType());
+                    return "`" + column.getName() + "` " + getH2Type(column.getType());
                 }
         ).collect(Collectors.joining(",")));
 
@@ -149,7 +149,7 @@ public class DatabaseLoader implements Closeable {
         statement.append(" (");
         statement.append(table.getColumns().stream().map(
                 column -> {
-                    return "\"" + column.getName() + "\"";
+                    return "`" + column.getName() + "`";
                 }
         ).collect(Collectors.joining(",")));
 
