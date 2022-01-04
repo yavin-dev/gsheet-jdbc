@@ -24,7 +24,7 @@ public class DriverIT {
         String url = "jdbc:gsheet://doc=(id=1Is6tUtJxhmjN8f4nqIYq-6n7FcW17y8glK1F9EsHzr4,range=Class%20Data!A1:I31)/MySchema";
         Connection connection = DriverManager.getConnection(url, "", "");
 
-        PreparedStatement statement = connection.prepareStatement("Select * from \"MySchema\".\"Class Data\" WHERE \"Student Name\"='Alexandra' LIMIT 1;");
+        PreparedStatement statement = connection.prepareStatement("Select * from `MySchema`.`Class Data` WHERE `Student Name`='Alexandra' LIMIT 1;");
 
         ResultSet result = statement.executeQuery();
         assertEquals(true, result.last());
@@ -39,7 +39,7 @@ public class DriverIT {
         String url = "jdbc:gsheet://doc=(id=1Is6tUtJxhmjN8f4nqIYq-6n7FcW17y8glK1F9EsHzr4,range=Class%20Data!A1:I31),doc=(id=1Is6tUtJxhmjN8f4nqIYq-6n7FcW17y8glK1F9EsHzr4,range=Drum%20Inventory!A1:C5)/MySchema";
         Connection connection = DriverManager.getConnection(url, "", "");
 
-        PreparedStatement statement = connection.prepareStatement("Select * from \"MySchema\".\"Class Data\" WHERE \"Student Name\"='Alexandra' LIMIT 1;");
+        PreparedStatement statement = connection.prepareStatement("Select * from `MySchema`.`Class Data` WHERE `Student Name`='Alexandra' LIMIT 1;");
 
         ResultSet result = statement.executeQuery();
         assertEquals(true, result.last());
@@ -47,7 +47,7 @@ public class DriverIT {
         assertEquals(100.0, result.getDouble(7));
 
 
-        statement = connection.prepareStatement("Select SUM(\"Price\") AS total from \"MySchema\".\"Drum Inventory\";");
+        statement = connection.prepareStatement("Select SUM(`Price`) AS total from `MySchema`.`Drum Inventory`;");
 
         result = statement.executeQuery();
         assertEquals(true, result.last());
@@ -76,7 +76,7 @@ public class DriverIT {
         //Reload the data...
         connection = DriverManager.getConnection(url, "", "");
 
-        PreparedStatement statement = connection.prepareStatement("Select \"Earnings\" from \"MySchema\".\"Class Data\" WHERE \"Student Name\"='Alexandra' LIMIT 1;");
+        PreparedStatement statement = connection.prepareStatement("Select `Earnings` from `MySchema`.`Class Data` WHERE `Student Name`='Alexandra' LIMIT 1;");
 
         ResultSet result = statement.executeQuery();
         assertEquals(true, result.last());
