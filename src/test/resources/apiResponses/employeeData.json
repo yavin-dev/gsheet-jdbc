@@ -15,7 +15,8 @@
                   "effectiveFormat": {
                     "numberFormat": {
                       "pattern":"M/d/yyyy",
-                      "type":"DATE"}
+                      "type":"DATE"
+                    }
                   },
                   "effectiveValue": {
                     "stringValue":"Hire Date"
