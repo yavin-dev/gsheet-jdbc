@@ -7,7 +7,7 @@
     <packaging>jar</packaging>
     <name>gsheet-jdbc</name>
     <description>Connect to any Google sheet with JDBC</description>
-    <url>https://github.com/yavin-dev/sheet-jdbc</url>
+    <url>https://github.com/yavin-dev/gsheet-jdbc</url>
 
     <issueManagement>
         <system>GitHub Issues</system>
